@@ -11,8 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 
@@ -33,7 +32,13 @@ public class Playlist{
   @Column(name = "description")
   private String description;
 
-  @ManyToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinColumn(name = "user_code", nullable = false)
   private User user;
+
+  public Playlist(String title, String description, User user) {
+    this.title = title;
+    this.description = description;
+    this.user = user;
+  }
 }
