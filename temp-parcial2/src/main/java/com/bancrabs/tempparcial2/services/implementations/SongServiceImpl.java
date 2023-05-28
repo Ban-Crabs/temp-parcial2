@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bancrabs.tempparcial2.models.dtos.SongRepoFindDTO;
 import com.bancrabs.tempparcial2.models.dtos.SongSaveDTO;
 import com.bancrabs.tempparcial2.models.entities.Song;
 import com.bancrabs.tempparcial2.repositories.SongRepository;
@@ -28,14 +29,14 @@ public class SongServiceImpl implements SongService{
     }
 
     @Override
-    public Boolean deleteByIdAndDuration(String identifier, Integer duration) throws Exception {
+    public Boolean deleteByIdAndDuration(SongRepoFindDTO songData) throws Exception {
         try{
-            List<Song> toDelete = songRepository.findByTitleAndDuration(identifier, duration);
+            Song toDelete = songRepository.findByTitleAndDuration(songData.getSongId(), songData.getDuration());
             if(toDelete == null){
                 return false;
             }
             else{
-                songRepository.delete(toDelete.get(0));
+                songRepository.delete(toDelete);
                 return true;
             }
         } catch(Exception e){
@@ -49,8 +50,8 @@ public class SongServiceImpl implements SongService{
     }
 
     @Override
-    public List<Song> findByIdAndDuration(String identifier, Integer duration) {
-        return songRepository.findByTitleAndDuration(identifier, duration);
+    public Song findByIdAndDuration(SongRepoFindDTO songData) {
+        return songRepository.findByTitleAndDuration(songData.getSongId(), songData.getDuration());
     }
     
 }

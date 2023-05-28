@@ -22,5 +22,5 @@ public interface SongRepository extends ListCrudRepository<Song, UUID>{
     List<Song> findByDurationGreaterThanOrderByCodeDesc(Integer duration);
     List<Song> findByDurationLessThanOrderByCodeAsc(Integer duration);
     List<Song> findByDurationLessThanOrderByCodeDesc(Integer duration);
-    List<Song> findByTitleAndDuration(String title, Integer duration);
+    Song findByTitleAndDuration(String title, Integer duration);
 }

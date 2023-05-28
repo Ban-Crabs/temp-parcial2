@@ -6,6 +6,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bancrabs.tempparcial2.models.dtos.PlaylistRepoFindDTO;
+import com.bancrabs.tempparcial2.models.dtos.SongRepoFindDTO;
 import com.bancrabs.tempparcial2.models.entities.Playlist;
 import com.bancrabs.tempparcial2.models.entities.Song;
 import com.bancrabs.tempparcial2.models.entities.SongXPlaylist;
@@ -25,15 +27,15 @@ public class SongXPlaylistServiceImpl implements SongXPlaylistService {
     private SongXPlaylistRepository songXPlaylistRepository;
 
     @Override
-    public Boolean addSongToPlaylist(String songId, Integer duration, String playlistId, String userId)
+    public Boolean addSongToPlaylist(SongRepoFindDTO songData, PlaylistRepoFindDTO playlistData)
             throws Exception {
         try {
-            List<Song> song = songService.findByIdAndDuration(userId, duration);
-            Playlist playlist = playlistService.findById(playlistId, userId);
+            Song song = songService.findByIdAndDuration(songData);
+            Playlist playlist = playlistService.findById(playlistData);
             if (song == null || playlist == null) {
                 return false;
             }
-            SongXPlaylist toSave = new SongXPlaylist(song.get(0), playlist);
+            SongXPlaylist toSave = new SongXPlaylist(song, playlist);
             songXPlaylistRepository.save(toSave);
             return true;
         } catch (Exception e) {
@@ -42,15 +44,15 @@ public class SongXPlaylistServiceImpl implements SongXPlaylistService {
     }
 
     @Override
-    public Boolean removeSongFromPlaylist(String songId, Integer duration, String playlistId, String userId)
+    public Boolean removeSongFromPlaylist(SongRepoFindDTO songData, PlaylistRepoFindDTO playlistData)
             throws Exception {
         try {
-            List<Song> song = songService.findByIdAndDuration(userId, duration);
-            Playlist playlist = playlistService.findById(playlistId, userId);
+            Song song = songService.findByIdAndDuration(songData);
+            Playlist playlist = playlistService.findById(playlistData);
             if (song == null || playlist == null) {
                 return false;
             }
-            SongXPlaylist toDelete = songXPlaylistRepository.findBySongCodeAndPlaylistCode(song.get(0).getCode(),
+            SongXPlaylist toDelete = songXPlaylistRepository.findBySongCodeAndPlaylistCode(song.getCode(),
                     playlist.getCode());
             if (toDelete == null) {
                 return false;
@@ -64,9 +66,9 @@ public class SongXPlaylistServiceImpl implements SongXPlaylistService {
     }
 
     @Override
-    public List<Song> findAllSongsInPlaylist(String playlistId, String userId) {
+    public List<Song> findAllSongsInPlaylist(PlaylistRepoFindDTO playlistData) {
         try {
-            Playlist playlist = playlistService.findById(playlistId, userId);
+            Playlist playlist = playlistService.findById(playlistData);
             if (playlist == null) {
                 return null;
             }
@@ -85,9 +87,9 @@ public class SongXPlaylistServiceImpl implements SongXPlaylistService {
     }
 
     @Override
-    public List<Song> findAllSongsNotInPlaylist(String playlistId, String userId) {
+    public List<Song> findAllSongsNotInPlaylist(PlaylistRepoFindDTO playlistData) {
         try{
-            Playlist playlist = playlistService.findById(playlistId, userId);
+            Playlist playlist = playlistService.findById(playlistData);
             if(playlist == null){
                 return null;
             }
@@ -108,13 +110,13 @@ public class SongXPlaylistServiceImpl implements SongXPlaylistService {
     }
 
     @Override
-    public List<Playlist> findAllPlaylistsContainingSong(String songId, Integer duration) {
+    public List<Playlist> findAllPlaylistsContainingSong(SongRepoFindDTO songData) {
         try{
-            List<Song> song = songService.findByIdAndDuration(songId, duration);
+            Song song = songService.findByIdAndDuration(songData);
             if(song == null){
                 return null;
             }
-            List<SongXPlaylist> songsXPlaylist = songXPlaylistRepository.findBySongCode(song.get(0).getCode());
+            List<SongXPlaylist> songsXPlaylist = songXPlaylistRepository.findBySongCode(song.getCode());
             if(songsXPlaylist == null){
                 return null;
             }
@@ -129,13 +131,13 @@ public class SongXPlaylistServiceImpl implements SongXPlaylistService {
     }
 
     @Override
-    public List<Playlist> findAllPlaylistsNotContainingSong(String songId, Integer duration) {
+    public List<Playlist> findAllPlaylistsNotContainingSong(SongRepoFindDTO songData) {
         try{
-            List<Song> song = songService.findByIdAndDuration(songId, duration);
+            Song song = songService.findByIdAndDuration(songData);
             if(song == null){
                 return null;
             }
-            List<SongXPlaylist> songsXPlaylist = songXPlaylistRepository.findBySongCode(song.get(0).getCode());
+            List<SongXPlaylist> songsXPlaylist = songXPlaylistRepository.findBySongCode(song.getCode());
             if(songsXPlaylist == null){
                 return null;
             }
@@ -152,9 +154,9 @@ public class SongXPlaylistServiceImpl implements SongXPlaylistService {
     }
 
     @Override
-    public List<Song> findAllSongsInPlaylistByDuration(String playlistId, String userId, Integer duration) {
+    public List<Song> findAllSongsInPlaylistByDuration(PlaylistRepoFindDTO playlistData, Integer duration) {
         try{
-            Playlist playlist = playlistService.findById(playlistId, userId);
+            Playlist playlist = playlistService.findById(playlistData);
             if(playlist == null){
                 return null;
             }
@@ -175,9 +177,9 @@ public class SongXPlaylistServiceImpl implements SongXPlaylistService {
     }
 
     @Override
-    public List<Song> findAllSongsNotInPlaylistByDuration(String playlistId, String userId, Integer duration) {
+    public List<Song> findAllSongsNotInPlaylistByDuration(PlaylistRepoFindDTO playlistData, Integer duration) {
         try{
-            Playlist playlist = playlistService.findById(playlistId, userId);
+            Playlist playlist = playlistService.findById(playlistData);
             if(playlist == null){
                 return null;
             }
@@ -200,9 +202,9 @@ public class SongXPlaylistServiceImpl implements SongXPlaylistService {
     }
 
     @Override
-    public List<Song> findAllSongsInPlaylistByDate(String playlistId, String userId, Timestamp date) {
+    public List<Song> findAllSongsInPlaylistByDate(PlaylistRepoFindDTO playlistData, Timestamp date) {
         try{
-            Playlist playlist = playlistService.findById(playlistId, userId);
+            Playlist playlist = playlistService.findById(playlistData);
             if(playlist == null){
                 return null;
             }
@@ -223,9 +225,9 @@ public class SongXPlaylistServiceImpl implements SongXPlaylistService {
     }
 
     @Override
-    public List<Song> findAllSongsNotInPlaylistByDate(String playlistId, String userId, Timestamp date) {
+    public List<Song> findAllSongsNotInPlaylistByDate(PlaylistRepoFindDTO playlistData, Timestamp date) {
         try{
-            Playlist playlist = playlistService.findById(playlistId, userId);
+            Playlist playlist = playlistService.findById(playlistData);
             if(playlist == null){
                 return null;
             }

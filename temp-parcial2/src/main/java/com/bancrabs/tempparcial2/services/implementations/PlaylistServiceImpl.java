@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bancrabs.tempparcial2.models.dtos.PlaylistRepoFindDTO;
 import com.bancrabs.tempparcial2.models.dtos.PlaylistSaveDTO;
 import com.bancrabs.tempparcial2.models.entities.Playlist;
 import com.bancrabs.tempparcial2.models.entities.User;
@@ -36,13 +37,13 @@ public class PlaylistServiceImpl implements PlaylistService{
     }
 
     @Override
-    public Boolean deleteById(String identifier, String userId) throws Exception {
+    public Boolean deleteById(PlaylistRepoFindDTO playlistData) throws Exception {
         try{
-            User owner = userService.findById(userId);
+            User owner = userService.findById(playlistData.getUserId());
             if(owner == null){
                 return false;
             }
-            Playlist toDelete = playlistRepository.findByTitleAndUser(identifier, owner);
+            Playlist toDelete = playlistRepository.findByTitleAndUser(playlistData.getPlaylistId(), owner);
             if(toDelete == null){
                 return false;
             }
@@ -62,12 +63,12 @@ public class PlaylistServiceImpl implements PlaylistService{
     }
 
     @Override
-    public Playlist findById(String identifier, String userId) {
-        User owner = userService.findById(userId);
+    public Playlist findById(PlaylistRepoFindDTO playlistData) {
+        User owner = userService.findById(playlistData.getUserId());
         if(owner == null){
             return null;
         }
-        Playlist toFind = playlistRepository.findByTitleAndUser(identifier, owner);
+        Playlist toFind = playlistRepository.findByTitleAndUser(playlistData.getPlaylistId(), owner);
         return toFind;
     }
     
