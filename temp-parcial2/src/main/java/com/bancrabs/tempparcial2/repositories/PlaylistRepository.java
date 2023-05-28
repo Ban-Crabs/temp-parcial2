@@ -20,4 +20,5 @@ public interface PlaylistRepository extends ListCrudRepository<Playlist, UUID>{
     List<Playlist> findByUserOrderByTitleDesc(User user);
     List<Playlist> findByUserOrderByCodeAsc(User user);
     List<Playlist> findByUserOrderByCodeDesc(User user);
+    Playlist findByTitleAndUser(String title, User user);
 }
