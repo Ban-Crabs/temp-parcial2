@@ -12,10 +12,10 @@ import java.util.List;
 
 public interface PlaylistRepository extends ListCrudRepository<Playlist, UUID>{
     List<Playlist> findByTitle(String title);
-    List<Playlist> findByTitleContainingIgnoreCaseByOrderByCodeAsc(String title);
-    List<Playlist> findByTitleContainingIgnoreCaseByOrderByCodeDesc(String title);
-    List<Playlist> findByDescriptionContainingIgnoreCaseByOrderByCodeAsc(String description);
-    List<Playlist> findByDescriptionContainingIgnoreCaseByOrderByCodeDesc(String description);
+    List<Playlist> findByTitleContainingIgnoreCaseOrderByCodeAsc(String title);
+    List<Playlist> findByTitleContainingIgnoreCaseOrderByCodeDesc(String title);
+    List<Playlist> findByDescriptionContainingIgnoreCaseOrderByCodeAsc(String description);
+    List<Playlist> findByDescriptionContainingIgnoreCaseOrderByCodeDesc(String description);
     List<Playlist> findByUserOrderByTitleAsc(User user);
     List<Playlist> findByUserOrderByTitleDesc(User user);
     List<Playlist> findByUserOrderByCodeAsc(User user);

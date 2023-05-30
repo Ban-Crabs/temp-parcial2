@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-TempParcial2Application<temp-parcial2>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.bancrabs.tempparcial2.TempParcial2Application",
+            "projectName": "temp-parcial2",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

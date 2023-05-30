@@ -10,8 +10,8 @@ import java.util.List;
 
 public interface SongRepository extends ListCrudRepository<Song, UUID>{
     List<Song> findByTitle(String title);
-    List<Song> findByTitleContainingIgnoreCaseByOrderByCodeAsc(String title);
-    List<Song> findByTitleContainingIgnoreCaseByOrderByCodeDesc(String title);
+    List<Song> findByTitleContainingIgnoreCaseOrderByCodeAsc(String title);
+    List<Song> findByTitleContainingIgnoreCaseOrderByCodeDesc(String title);
     List<Song> findByDurationOrderByCodeAsc(Integer duration);
     List<Song> findByDurationOrderByCodeDesc(Integer duration);
     List<Song> findByDurationGreaterThanEqualOrderByCodeAsc(Integer duration);

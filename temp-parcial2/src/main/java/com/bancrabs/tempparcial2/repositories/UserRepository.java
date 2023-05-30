@@ -8,7 +8,7 @@ import org.springframework.data.repository.ListCrudRepository;
 import com.bancrabs.tempparcial2.models.entities.User;
 
 public interface UserRepository extends ListCrudRepository<User, UUID> {
-    User findByUsernameOrEmail(String identifier);
-    List<User> findByUsernameOrEmailContainingIgnoreCaseByOrderByCodeAsc(String identifier);
-    List<User> findByUsernameOrEmailContainingIgnoreCaseByOrderByCodeDesc(String identifier);
+    User findByUsernameOrEmail(String username, String email);
+    List<User> findByUsernameOrEmailContainingIgnoreCaseOrderByCodeAsc(String username, String email);
+    List<User> findByUsernameOrEmailContainingIgnoreCaseOrderByCodeDesc(String username, String email);
 }

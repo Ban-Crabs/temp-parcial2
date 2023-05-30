@@ -20,8 +20,7 @@ public class UserServiceImpl implements UserService {
     public Boolean register(UserRegisterDTO data) throws Exception {
         try {
             User toRegister = new User(data.getUsername(), data.getEmail(), data.getPassword());
-            if (userRepository.findByUsernameOrEmail(data.getUsername()) != null
-                    || userRepository.findByUsernameOrEmail(data.getEmail()) != null) {
+            if (userRepository.findByUsernameOrEmail(data.getUsername(), data.getEmail()) != null) {
                 return false;
             }
             userRepository.save(toRegister);
@@ -34,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean auth(String identifier, String password) throws Exception {
         try {
-            User toAuth = userRepository.findByUsernameOrEmail(identifier);
+            User toAuth = userRepository.findByUsernameOrEmail(identifier, identifier);
             if (toAuth == null) {
                 return false;
             } else {
@@ -52,7 +51,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean updatePassword(String identifier, String password) throws Exception {
         try {
-            User toUpdate = userRepository.findByUsernameOrEmail(identifier);
+            User toUpdate = userRepository.findByUsernameOrEmail(identifier, identifier);
             if (toUpdate == null) {
                 return false;
             } else {
@@ -68,7 +67,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean updateEmail(String identifier, String email) throws Exception {
         try {
-            User toUpdate = userRepository.findByUsernameOrEmail(identifier);
+            User toUpdate = userRepository.findByUsernameOrEmail(identifier, identifier);
             if (toUpdate == null) {
                 return false;
             } else {
@@ -84,7 +83,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean updateUsername(String identifier, String username) throws Exception {
         try {
-            User toUpdate = userRepository.findByUsernameOrEmail(identifier);
+            User toUpdate = userRepository.findByUsernameOrEmail(identifier, identifier);
             if (toUpdate == null) {
                 return false;
             } else {
@@ -100,7 +99,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Boolean delete(String identifier) throws Exception {
         try {
-            User toDelete = userRepository.findByUsernameOrEmail(identifier);
+            User toDelete = userRepository.findByUsernameOrEmail(identifier, identifier);
             userRepository.delete(toDelete);
             return true;
         } catch (Exception e) {
@@ -115,7 +114,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(String identifier) {
-        User toReturn = userRepository.findByUsernameOrEmail(identifier);
+        User toReturn = userRepository.findByUsernameOrEmail(identifier, identifier);
         return toReturn;
     }
 
